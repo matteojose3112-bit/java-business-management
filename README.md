@@ -2,7 +2,7 @@
 
 > A lightweight inventory management REST API for small retail and distribution workflows.
 
-**Status:** MVP implemented; CI verification in progress  
+**Status:** MVP implemented; CI verification in progress (initial repository-query issue corrected in follow-up commit)  
 **Primary language:** Java 21  
 **Framework:** Spring Boot 3.5, Spring Data JPA  
 **Build:** Maven  
