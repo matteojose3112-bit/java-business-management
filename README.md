@@ -1,79 +1,118 @@
 # Java Business Management
 
-> An inventory and order management application demonstrating structured backend development and core business rules.
+> A lightweight inventory management REST API for small retail and distribution workflows.
 
-**Status:** Planning / initial documentation  
-**Primary language:** Java  
-**Live demo:** Not deployed yet  
-**Deployment target:** Render web service (planned)
+**Status:** MVP implemented; CI verification in progress  
+**Primary language:** Java 21  
+**Framework:** Spring Boot 3.5, Spring Data JPA  
+**Build:** Maven  
+**Database:** H2 in-memory (development/demo)  
+**Live demo:** Not deployed
 
 ## Overview
 
-Small distributors and retailers need reliable ways to track products, stock movements, suppliers, and orders while preventing inconsistent inventory records.
+This project models a practical inventory workflow: create products, record stock entering or leaving inventory, inspect movement history, and identify products at or below their reorder threshold.
 
-This repository is a portfolio project intended to demonstrate practical, maintainable software built around a recognizable business use case. The capabilities below describe the planned scope; they should not be interpreted as already implemented.
+The API enforces basic business rules, including unique SKUs, positive movement quantities, and prevention of negative stock balances.
 
-## Intended users
+## Implemented capabilities
 
-Small retailers, inventory coordinators, operations teams, and organizations evaluating custom business software.
+- Product creation with SKU, name, opening quantity, and reorder level.
+- Product listing with current stock and low-stock status.
+- Low-stock report.
+- Stock-in and stock-out movements.
+- Per-product stock movement history.
+- Input validation and clear HTTP error responses.
+- Automated Spring Boot integration tests.
+- Dockerfile, Render Blueprint, and GitHub Actions CI configuration.
 
-## Planned capabilities
+## API
 
-- Product and category management
-- Supplier records
-- Stock-in and stock-out transactions
-- Order lifecycle and basic status tracking
-- Validation and low-stock reporting
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/health` | Health check |
+| GET | `/api/products` | List products |
+| POST | `/api/products` | Create a product |
+| GET | `/api/products/low-stock` | List products at/below reorder level |
+| POST | `/api/products/{id}/stock-movements` | Record stock IN or OUT |
+| GET | `/api/products/{id}/stock-movements` | View product movement history |
 
-## Technology
+### Create a product
 
-Java, Spring Boot, Maven, and a relational database; exact database and persistence choices will be documented during implementation.
-
-The implementation will favor a small, understandable dependency set and documented setup steps. Final versions and infrastructure choices will be recorded as they are selected.
-
-## Planned project structure
-
-```text
-java-business-management/
-├── src/main/java/ — application code
-├── src/test/java/ — automated tests
-├── src/main/resources/ — configuration and migrations
-├── docs/ — domain model and API notes
-├── README.md
-├── ROADMAP.md
-└── CHANGELOG.md
+```bash
+curl -X POST http://localhost:8080/api/products \
+  -H "Content-Type: application/json" \
+  -d '{"sku":"SKU-1001","name":"Widget","openingQuantity":25,"reorderLevel":5}'
 ```
 
-The exact structure may evolve as implementation begins.
+### Record a stock-out
 
-## Getting started
+```bash
+curl -X POST http://localhost:8080/api/products/1/stock-movements \
+  -H "Content-Type: application/json" \
+  -d '{"type":"OUT","quantity":3,"note":"Order fulfilment"}'
+```
 
-The application is not implemented yet, so installation and run instructions will be added with the first working milestone. No commands are provided here that would imply functionality exists before it does.
+Use `IN` to add stock. A stock-out that would make inventory negative is rejected with HTTP 409.
 
-## Demo and deployment
+## Run locally
 
-The public demonstration is planned for **Render web service (planned)**. The live URL will be added here after deployment and verification.
+Requirements: Java 21 and Maven 3.9+.
 
-## Quality approach
+```bash
+mvn spring-boot:run
+```
 
-- Automated tests for core business logic.
-- Synthetic examples instead of private or customer data.
-- Clear validation and error handling.
-- Reproducible setup and deployment instructions.
-- Documentation kept aligned with the actual code.
+Run the test suite and package the application:
 
-## Roadmap
+```bash
+mvn verify
+```
 
-See [ROADMAP.md](ROADMAP.md) for planned milestones.
+The service listens on port 8080 by default. The `PORT` environment variable controls the HTTP port.
 
-## Changelog
+## Technology and structure
 
-See [CHANGELOG.md](CHANGELOG.md) for project history.
+- Java 21
+- Spring Boot Web, Validation, and Data JPA
+- H2 database
+- Maven
+- JUnit 5 and Spring MockMvc
+- Docker and Render Blueprint configuration
 
-## Portfolio outcomes
+```text
+src/main/java/com/matteovelez/business/
+├── HealthController.java
+├── product/
+│   ├── Product.java
+│   ├── ProductController.java
+│   ├── ProductRepository.java
+│   └── ProductService.java
+└── inventory/
+    ├── StockMovement.java
+    └── StockMovementRepository.java
+src/test/java/ — integration tests
+.github/workflows/ci.yml
+Dockerfile
+render.yaml
+pom.xml
+```
 
-Demonstrates Java, object-oriented design, Spring Boot, domain modeling, persistence, validation, and testing.
+## Quality and deployment
 
-## Project status
+GitHub Actions runs `mvn --batch-mode verify` on pushes and pull requests to `main`. The workflow is being verified against the initial implementation.
 
-This repository currently establishes the project definition and documentation baseline. Features, screenshots, test results, and deployment links will be added only after they exist and have been verified.
+A Dockerfile and Render free-plan Blueprint are included as deployment preparation. No Render service has been created and there is no live URL yet.
+
+## Current limitations
+
+- H2 is in-memory: data resets whenever the application restarts.
+- No authentication, authorization, or multi-user separation.
+- Supplier management, purchase orders, sales orders, and order lifecycle are not implemented.
+- No database migrations, audit trail, or concurrency/locking strategy for high-volume inventory updates.
+- This MVP is a portfolio demonstration, not a production inventory system.
+
+## Project tracking
+
+- [Roadmap](ROADMAP.md)
+- [Changelog](CHANGELOG.md)
