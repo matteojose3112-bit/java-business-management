@@ -1,35 +1,48 @@
 # Roadmap
 
-This roadmap describes intended work. Items are not considered complete until implemented, tested, and documented.
+Items are complete only when implemented and verified.
 
-## Phase 1 — Working foundation
-- [ ] Establish the project structure and supported runtime.
-- [ ] Implement the smallest useful end-to-end workflow: Define inventory entities, business rules, and a minimal Spring Boot application with health checks.
-- [ ] Add representative synthetic sample data where applicable.
-- [ ] Add automated tests for core behavior.
-- [ ] Document local setup and known limitations.
+## Phase 1 — Inventory API foundation
 
-## Phase 2 — Core capabilities
-- [ ] Implement product, supplier, and stock movement workflows with validation.
-- [ ] Add input validation and predictable error handling.
-- [ ] Expand test coverage for normal and edge cases.
-- [ ] Document the architecture and key design decisions.
+- [x] Establish Java 21, Spring Boot, Maven, and project structure.
+- [x] Add health endpoint.
+- [x] Model products and stock movements.
+- [x] Implement product creation and listing.
+- [x] Implement stock IN/OUT movements and movement history.
+- [x] Enforce unique SKUs, positive movement quantities, and non-negative stock.
+- [x] Add low-stock reporting.
+- [x] Add Spring Boot integration tests.
+- [x] Add GitHub Actions CI workflow.
+- [x] Prepare Dockerfile and Render Blueprint.
+- [ ] Verify the initial GitHub Actions run and fix any failures.
 
-## Phase 3 — Public demonstration
-- [ ] Add order handling, persistence, tests, API documentation, and deployment configuration.
-- [ ] Add screenshots or a short demonstration walkthrough.
-- [ ] Verify the deployed experience from a clean browser/session.
-- [ ] Link the live demo and deployment status from the README.
+## Phase 2 — Persistence and reliability
 
-## Phase 4 — Quality and expansion
-- [ ] Improve authorization boundaries, auditability, reporting, and operational readiness.
-- [ ] Review accessibility, security, performance, and maintainability.
-- [ ] Update documentation to match the actual implementation.
-- [ ] Tag a first stable release when the project meets its acceptance criteria.
+- [ ] Replace in-memory H2 with persistent PostgreSQL.
+- [ ] Add database migrations.
+- [ ] Add transaction/concurrency safeguards for simultaneous stock updates.
+- [ ] Add audit metadata and pagination/filtering.
+- [ ] Expand tests for duplicate SKUs, missing products, and movement edge cases.
+
+## Phase 3 — Business workflows
+
+- [ ] Add supplier records and supplier-product relationships.
+- [ ] Add purchase orders and receiving workflow.
+- [ ] Add customer orders and stock reservation/fulfilment.
+- [ ] Add reporting for stock valuation and movement summaries.
+
+## Phase 4 — Deployment and production readiness
+
+- [ ] Obtain approval before creating a Render service.
+- [ ] Deploy on the free plan and verify the live health endpoint.
+- [ ] Configure persistent database connectivity and environment variables.
+- [ ] Add authentication, authorization, rate limiting, and operational logging.
+- [ ] Document live API examples and known limitations.
 
 ## Definition of done
-- A new user can understand the project and reproduce its core workflow.
-- Core functionality is covered by automated tests.
-- No credentials, private customer data, or real personal information are committed.
-- The README accurately describes implemented features and deployment status.
-- Known limitations are stated clearly.
+
+- Core inventory rules are covered by automated tests.
+- The API can be run locally from documented instructions.
+- No secrets or real customer data are committed.
+- README, roadmap, and changelog reflect verified behavior.
+- Deployment is only marked complete after a live endpoint is checked.
