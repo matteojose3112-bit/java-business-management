@@ -2,12 +2,13 @@
 
 > A lightweight inventory management REST API for small retail and distribution workflows.
 
-**Status:** MVP implemented; CI verification in progress (initial repository-query issue corrected in follow-up commit)  
+**Status:** MVP implemented; CI passed; first Render deployment in progress  
 **Primary language:** Java 21  
 **Framework:** Spring Boot 3.5, Spring Data JPA  
 **Build:** Maven  
 **Database:** H2 in-memory (development/demo)  
-**Live demo:** Not deployed
+**Live demo:** https://java-business-management.onrender.com  
+**Render dashboard:** https://dashboard.render.com/web/srv-dbvmvbt9fdbs73bofrt0
 
 ## Overview
 
@@ -78,7 +79,7 @@ The service listens on port 8080 by default. The `PORT` environment variable con
 - H2 database
 - Maven
 - JUnit 5 and Spring MockMvc
-- Docker and Render Blueprint configuration
+- Docker and Render
 
 ```text
 src/main/java/com/matteovelez/business/
@@ -98,11 +99,13 @@ render.yaml
 pom.xml
 ```
 
-## Quality and deployment
+## CI and deployment
 
-GitHub Actions runs `mvn --batch-mode verify` on pushes and pull requests to `main`. The workflow is being verified against the initial implementation.
+GitHub Actions runs `mvn --batch-mode verify` on pushes and pull requests to `main`. The initial CI run passed.
 
-A Dockerfile and Render free-plan Blueprint are included as deployment preparation. No Render service has been created and there is no live URL yet.
+The application has been created as a Docker-based Render web service on the free plan, in the Virginia region, linked to the repository's `main` branch. The first deployment is still building; verify the health endpoint at:
+
+- https://java-business-management.onrender.com/health
 
 ## Current limitations
 
