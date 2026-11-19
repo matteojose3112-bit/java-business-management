@@ -12,9 +12,8 @@ Items are complete only when implemented and verified.
 - [x] Enforce unique SKUs, positive movement quantities, and non-negative stock.
 - [x] Add low-stock reporting.
 - [x] Add Spring Boot integration tests.
-- [x] Add GitHub Actions CI workflow.
+- [x] Add GitHub Actions CI workflow; initial run passed.
 - [x] Prepare Dockerfile and Render Blueprint.
-- [ ] Verify the initial GitHub Actions run and fix any failures.
 
 ## Phase 2 — Persistence and reliability
 
@@ -33,8 +32,8 @@ Items are complete only when implemented and verified.
 
 ## Phase 4 — Deployment and production readiness
 
-- [ ] Obtain approval before creating a Render service.
-- [ ] Deploy on the free plan and verify the live health endpoint.
+- [x] Create Render web service on the free plan; first deployment is in progress.
+- [ ] Verify the live health endpoint: https://java-business-management.onrender.com/health
 - [ ] Configure persistent database connectivity and environment variables.
 - [ ] Add authentication, authorization, rate limiting, and operational logging.
 - [ ] Document live API examples and known limitations.
