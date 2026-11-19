@@ -14,14 +14,20 @@ All notable project changes are recorded here.
 - Per-product stock movement history endpoint.
 - Health endpoint.
 - Spring Boot integration tests using MockMvc.
-- GitHub Actions workflow running Maven verify.
-- Dockerfile and Render Blueprint for future deployment.
+- GitHub Actions workflow running Maven verify; initial CI run passed.
+- Dockerfile and Render deployment configuration.
+
+### Deployment
+- Created the `java-business-management` Render web service on the free plan in Virginia.
+- Connected the service to the GitHub repository's `main` branch with automatic deploys.
+- Live URL: https://java-business-management.onrender.com
+- Render dashboard: https://dashboard.render.com/web/srv-dbvmvbt9fdbs73bofrt0
+- Initial Docker build is in progress; the public health endpoint has not yet been verified.
 
 ### Documentation
-- Replaced planning-only README with implemented API documentation.
+- Documented the implemented API, local setup, and known limitations.
 - Updated roadmap to separate completed MVP work from future persistence, order management, and production-readiness work.
 
 ### Known limitations
 - H2 is in-memory and all records reset on restart.
 - Authentication, supplier and order workflows, persistent storage, and production concurrency safeguards are not yet implemented.
-- Render deployment configuration is prepared, but no service has been created.
