@@ -53,6 +53,6 @@ public class ProductService {
     @Transactional(readOnly = true)
     public List<StockMovement> movements(Long productId) {
         if (!products.existsById(productId)) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
-        return movements.findByProductIdOrderByCreatedAtDesc(productId);
+        return movements.findByProduct_IdOrderByCreatedAtDesc(productId);
     }
 }
